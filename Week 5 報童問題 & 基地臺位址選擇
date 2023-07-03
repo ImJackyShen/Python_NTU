@@ -1,0 +1,36 @@
+Question 1:
+
+c = int(input()) ## 進貨成本
+r = int(input()) ## 零售價格
+N = int(input()) ## 需求個數
+S = int(input()) ## 商品殘值
+list = []        ## 條件機率
+for i in range(N):
+    list.append(float(input()))
+
+
+exp_profit = 0 
+sum_profit = 0.0
+D = 0.0
+maxP = 0
+maxq = 0
+
+
+for q in range(0, N + 1): ## q為總訂購量
+  sum_profit = 0.0  ## 每次迭代會重新計算獲利加總
+  D = 0             ## 每次迭代會重新計算機率加總
+  for p in range(0, q + 1) :
+     exp_profit = r * min(p, q) - c * q + S * max(q-p, 0) ## 預計收益 = (售價 * 數量) - (成本 * 總訂貨數) + (殘值 * 剩餘數)
+     if p != q :
+      sum_profit += list[p] * exp_profit
+      D += list[p]
+     else :
+      sum_profit += (1-D) * exp_profit
+      break
+  if sum_profit > maxP:
+      maxP = sum_profit
+      maxq = q
+
+print(str(maxq) + " " + str(int(maxP)))
+
+Question 2:
